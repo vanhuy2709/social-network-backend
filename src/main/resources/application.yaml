@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: social-platform
+  datasource:
+    url: jdbc:postgresql://localhost:5432/social_platform
+    username: postgres
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
