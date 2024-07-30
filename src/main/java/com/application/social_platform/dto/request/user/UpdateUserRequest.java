@@ -1,4 +1,4 @@
-package com.application.social_platform.dto.response;
+package com.application.social_platform.dto.request.user;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,14 +10,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    Long id;
-    String username;
+public class UpdateUserRequest {
     String email;
     String password;
     String firstName;
     String lastName;
-    int age;
     String location;
     LocalDate dob;
     String phoneNumber;

@@ -1,25 +1,27 @@
-package com.application.social_platform.dto.request;
+package com.application.social_platform.dto.response.user;
 
-import jakarta.annotation.sql.DataSourceDefinition;
+import com.application.social_platform.dto.response.role.RoleResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateUserRequest {
+public class UserResponse {
+    Long id;
     String username;
     String email;
-    String password;
     String firstName;
     String lastName;
-    int age;
+    long age;
     String location;
     LocalDate dob;
     String phoneNumber;
     String avatar;
+    Set<RoleResponse> roles;
 }

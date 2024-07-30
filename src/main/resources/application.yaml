@@ -1,3 +1,8 @@
+server:
+  port: 8080
+  servlet:
+    context-path: "/api/v1"
+
 spring:
   application:
     name: social-platform
@@ -8,4 +13,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      show-sql: true
+    show-sql: true
+
+
+jwt:
+  secretKey: "OrrFKp3pUsbmMtf+90Q5/XdeZwvAc2Hg0NXJyx/c9+RX6tI/LNUv8c7t3uye8CGe"

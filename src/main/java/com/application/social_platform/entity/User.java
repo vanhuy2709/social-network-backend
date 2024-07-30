@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -23,9 +24,12 @@ public class User {
     String password;
     String firstName;
     String lastName;
-    int age;
+    long age;
     String location;
     LocalDate dob;
     String phoneNumber;
     String avatar;
+
+    @ManyToMany
+    Set<Role> roles;
 }

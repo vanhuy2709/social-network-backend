@@ -1,10 +1,11 @@
 package com.application.social_platform.controllers;
 
-import com.application.social_platform.dto.request.CreateUserRequest;
-import com.application.social_platform.dto.request.UpdateUserRequest;
+import com.application.social_platform.dto.request.user.CreateUserRequest;
+import com.application.social_platform.dto.request.user.UpdateUserRequest;
 import com.application.social_platform.dto.response.ApiResponse;
-import com.application.social_platform.entity.User;
-import com.application.social_platform.services.UserService;
+import com.application.social_platform.dto.response.user.UserResponse;
+import com.application.social_platform.domain.services.UserService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,34 +21,31 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    ApiResponse<User> create(@RequestBody CreateUserRequest request) {
+    ApiResponse<UserResponse> create(@RequestBody @Valid CreateUserRequest request) {
 
-        return ApiResponse.<User>builder()
-                .statusCode(201)
+        return ApiResponse.<UserResponse>builder()
+                .code(201)
                 .result(userService.create(request))
                 .build();
     }
 
     @GetMapping
-    ApiResponse<List<User>> getAll() {
-        return ApiResponse.<List<User>>builder()
-                .statusCode(200)
+    ApiResponse<List<UserResponse>> getAll() {
+        return ApiResponse.<List<UserResponse>>builder()
                 .result(userService.findAll())
                 .build();
     }
 
     @GetMapping("/{userId}")
-    ApiResponse<User> getOne(@PathVariable Long userId) {
-        return ApiResponse.<User>builder()
-                .statusCode(200)
+    ApiResponse<UserResponse> getOne(@PathVariable Long userId) {
+        return ApiResponse.<UserResponse>builder()
                 .result(userService.findOne(userId))
                 .build();
     }
 
     @PutMapping("/{userId}")
-    ApiResponse<User> update(@PathVariable Long userId, @RequestBody UpdateUserRequest request) {
-        return ApiResponse.<User>builder()
-                .statusCode(200)
+    ApiResponse<UserResponse> update(@PathVariable Long userId, @RequestBody UpdateUserRequest request) {
+        return ApiResponse.<UserResponse>builder()
                 .result(userService.update(userId, request))
                 .build();
     }
@@ -57,7 +55,6 @@ public class UserController {
         userService.remove(userId);
 
         return ApiResponse.<String>builder()
-                .statusCode(200)
                 .result("Delete user successfully")
                 .build();
     }
