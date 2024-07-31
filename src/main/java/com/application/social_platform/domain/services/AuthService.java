@@ -28,8 +28,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -45,37 +44,37 @@ public class AuthService {
     protected String SECRET_KEY;
 
     public LoginResponse login(LoginRequest loginRequest) {
-        var isExistUser = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+    var isExistUser = userRepository.findByUsername(loginRequest.getUsername())
+            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        boolean isMatchPassword = passwordEncoder.matches(loginRequest.getPassword(), isExistUser.getPassword());
+    boolean isMatchPassword = passwordEncoder.matches(loginRequest.getPassword(), isExistUser.getPassword());
 
         if (!isMatchPassword) throw new AppException(ErrorCode.LOGIN_FAIL);
 
-        String token = generateToken(isExistUser);
+    String token = generateToken(isExistUser);
 
         return LoginResponse.builder()
                 .token(token)
                 .build();
-    }
+}
 
-    public UserResponse register(RegisterRequest registerRequest) {
-        if (userRepository.existsByUsername(registerRequest.getUsername()))
-            throw new AppException(ErrorCode.USER_EXISTED);
+public UserResponse register(RegisterRequest registerRequest) {
+    if (userRepository.existsByUsername(registerRequest.getUsername()))
+        throw new AppException(ErrorCode.USER_EXISTED);
 
-        if (userRepository.existsByEmail(registerRequest.getEmail()))
-            throw new AppException(ErrorCode.EMAIL_EXIST);
+    if (userRepository.existsByEmail(registerRequest.getEmail()))
+        throw new AppException(ErrorCode.EMAIL_EXIST);
 
-        User user = userMapper.toUser(registerRequest);
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+    User user = userMapper.toUser(registerRequest);
+    user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-        HashSet<Role> roles = new HashSet<>();
-        Role role = roleRepository.findById("user").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+    HashSet<Role> roles = new HashSet<>();
+    roles.add(roleRepository.findById("user").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND)));
 
-        roles.add(role);
+    user.setRoles(roles);
 
-        return userMapper.toUserResponse(userRepository.save(user));
-    }
+    return userMapper.toUserResponse(userRepository.save(user));
+}
 
     public VerifyResponse verify(String token)
             throws JOSEException, ParseException

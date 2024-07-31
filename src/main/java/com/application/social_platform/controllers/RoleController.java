@@ -33,6 +33,13 @@ public class RoleController {
                 .build();
     }
 
+    @GetMapping("/{name}")
+    public ApiResponse<RoleResponse> getOne(@PathVariable String name) {
+        return ApiResponse.<RoleResponse>builder()
+                .result(roleService.findOne(name))
+                .build();
+    }
+
     @DeleteMapping("/{name}")
     public ApiResponse<String> deleteOne(@PathVariable String name) {
         roleService.delete(name);

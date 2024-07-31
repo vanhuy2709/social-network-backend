@@ -32,6 +32,13 @@ public class RoleService {
                 .map(roleMapper::toRoleResponse).toList();
     }
 
+    public RoleResponse findOne(String name) {
+        Role role = roleRepository.findById(name)
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+
+        return roleMapper.toRoleResponse(role);
+    }
+
     public void delete(String name) {
         Role role = roleRepository.findById(name)
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));

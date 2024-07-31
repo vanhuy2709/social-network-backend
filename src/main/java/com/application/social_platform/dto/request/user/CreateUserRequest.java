@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -41,4 +42,6 @@ public class CreateUserRequest {
 
     @NotEmpty
     String avatar;
+
+    List<String> roles;
 }
